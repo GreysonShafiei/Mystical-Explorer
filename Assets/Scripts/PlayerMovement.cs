@@ -13,6 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        
+        playerBody.velocity = new Vector2(Input.GetAxis("Horizontal"),playerBody.velocity.y);
     }
 }
