@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Setter for animator parameters
         animator.SetBool("Run", horizontalInput != 0);
-        animator.SetBool("grounded", isGrounded());
+        animator.SetBool("grounded", IsGrounded());
 
 
         //Wall jump mechanic
@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
             
 
             playerBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, playerBody.velocity.y);
-            if (!isGrounded() && onWall())
+            if (!IsGrounded() && OnWall())
             {
                 playerBody.gravityScale = 0;
                 playerBody.velocity = Vector2.zero;
@@ -67,18 +67,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            jump();
+            Jump();
         }
     }
 
-    private void jump()
+    private void Jump()
     {
-        if (isGrounded())
+        if (IsGrounded())
         {
             playerBody.velocity = new Vector2(playerBody.velocity.x, jumpStrength);
             animator.SetTrigger("jump");
         }
-        else if (onWall() && !isGrounded())
+        else if (OnWall() && !IsGrounded())
         {
             if (horizontalInput == 0)
             {
@@ -94,23 +94,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            
-        }
-    }
 
-    private bool isGrounded()
+
+    private bool IsGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0 , Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
     
-    private bool onWall()
+    private bool OnWall()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0 , new Vector2(transform.localScale.x,0), 0.1f, wallLayer);
         return raycastHit.collider != null;
+    }
+
+    public bool CanAttack()
+    {
+        return horizontalInput == 0 && IsGrounded() && !OnWall();
     }
 }
