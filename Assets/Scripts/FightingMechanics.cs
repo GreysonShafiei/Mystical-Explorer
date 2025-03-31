@@ -20,7 +20,7 @@ public class FightingMechanics : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && cooldownTimer > attackCooldown && playerMovement.CanAttack())
+        if (Input.GetKey(KeyCode.Space) && cooldownTimer > attackCooldown && playerMovement.CanAttack())
         {
             Attack();
         }
