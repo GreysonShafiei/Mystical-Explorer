@@ -9,12 +9,9 @@ public class SkullHealth : MonoBehaviour
 
     public void Hit(float _damage)
     {
-        if (health > 0)
-        {
-            //Damage enemy
-            health -= _damage;
-        }
-        else
+        health -= _damage;
+
+        if (health <= 0)
         {
             //Kill enemy
             enemy.SetActive(false);

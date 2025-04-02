@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4234524809462325229}
   - component: {fileID: 2158094943167566408}
   m_Layer: 9
-  m_Name: ThronTrap
+  m_Name: ThornTrap
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
