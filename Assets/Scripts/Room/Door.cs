@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] private Transform prevRoom;
-    [SerializeField] private Transform nextRoom;
-    [SerializeField] private CameraController cam;
+    //[SerializeField] private Transform prevRoom;
+    //[SerializeField] private Transform nextRoom;
+    //[SerializeField] private CameraController cam;
+    [SerializeField] private BoxCollider2D doorBoxCollider;
     [SerializeField] private string requiredKeyName;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
-            Collectible collectible = collision.GetComponent<Collectible>();
+            Collectible collectible = collision.collider.GetComponent<Collectible>();
             if (collectible != null && collectible.KeyList().Contains(requiredKeyName))
             {
-                if (collision.transform.position.x < transform.position.x)
-                {
-                    cam.MoveToNextRoom(nextRoom);
-                }
-                else
-                {
-                    cam.MoveToNextRoom(prevRoom);
-                }
+                Destroy(doorBoxCollider);
+                //if (collision.transform.position.x < transform.position.x)
+                //{
+                //    cam.MoveToNextRoom(nextRoom);
+                //}
+                //else
+                //{
+                //    cam.MoveToNextRoom(prevRoom);
+                //}
             }            
         }
     }
