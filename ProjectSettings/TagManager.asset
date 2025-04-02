@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Enemy
+  - Key
+  - Fireball
+  - EnemyTarget
+  - FireballCollectible
   layers:
   - Default
   - TransparentFX
@@ -14,8 +19,8 @@ TagManager:
   - UI
   - Ground
   - Wall
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

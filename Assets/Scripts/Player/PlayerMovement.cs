@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                playerBody.gravityScale = 7;
+                playerBody.gravityScale = 9;
             }
         }
         else

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float fireballDamage;
     private bool hit;
     private float direction;
     private float fireballLifetime;
@@ -31,7 +32,7 @@ public class Fireball : MonoBehaviour
 
         //If fireball is active for 5 seconds deactivate
         fireballLifetime += Time.deltaTime;
-        if (fireballLifetime > 5)
+        if (fireballLifetime > 3)
         {
             gameObject.SetActive(false);
         }
@@ -42,6 +43,10 @@ public class Fireball : MonoBehaviour
         hit = true;
         boxCollider2D.enabled = false;
         anim.SetTrigger("explode");
+        if (collision.CompareTag("EnemyTarget"))
+        {
+            collision.GetComponent<SkullHealth>().Hit(fireballDamage);
+        }
     }
 
     public void SetDirection(float _direction)
