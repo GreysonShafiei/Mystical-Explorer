@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
@@ -17,15 +19,13 @@ public class Door : MonoBehaviour
             Collectible collectible = collision.collider.GetComponent<Collectible>();
             if (collectible != null && collectible.KeyList().Contains(requiredKeyName))
             {
+                if (requiredKeyName.IndexOf("Level", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    SceneManager.LoadScene(requiredKeyName);
+                }
+
+                //Destroy the blocker
                 Destroy(doorBoxCollider);
-                //if (collision.transform.position.x < transform.position.x)
-                //{
-                //    cam.MoveToNextRoom(nextRoom);
-                //}
-                //else
-                //{
-                //    cam.MoveToNextRoom(prevRoom);
-                //}
             }            
         }
     }
