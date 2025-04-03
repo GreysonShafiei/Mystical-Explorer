@@ -8345,7 +8345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8335277309923891423, guid: 61144558450050146ad2ff58af34a447, type: 3}
       propertyPath: m_Name
-      value: Level2Unlock
+      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13053,7 +13053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorBoxCollider: {fileID: 1964122352}
-  requiredKeyName: Level2Unlock
+  requiredKeyName: Level2
 --- !u!4 &1975709685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3297682678139211468, guid: 50098998c2f38414dbc19afaf8f5adb4, type: 3}
