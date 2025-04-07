@@ -11,6 +11,7 @@ public class Door : MonoBehaviour
     //[SerializeField] private CameraController cam;
     [SerializeField] private BoxCollider2D doorBoxCollider;
     [SerializeField] private string requiredKeyName;
+    [SerializeField] GameObject winScreen;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,7 +20,12 @@ public class Door : MonoBehaviour
             Collectible collectible = collision.collider.GetComponent<Collectible>();
             if (collectible != null && collectible.KeyList().Contains(requiredKeyName))
             {
-                if (requiredKeyName.IndexOf("Level", StringComparison.OrdinalIgnoreCase) >= 0)
+                if (requiredKeyName.IndexOf("LevelUnlock", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    winScreen.SetActive(true);
+                    StartCoroutine(WaitForSuccessScreen());
+                }
+                else if (requiredKeyName.IndexOf("Level", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     SceneManager.LoadScene(requiredKeyName);
                 }
@@ -28,5 +34,11 @@ public class Door : MonoBehaviour
                 Destroy(doorBoxCollider);
             }            
         }
+    }
+
+    IEnumerator WaitForSuccessScreen()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(requiredKeyName.Replace("Unlock", ""));
     }
 }

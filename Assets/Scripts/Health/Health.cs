@@ -15,6 +15,9 @@ public class Health : MonoBehaviour
     [SerializeField] private int highlightLength;
     private SpriteRenderer spriteRenderer;
 
+    [Header("UI")]
+    [SerializeField] GameObject deathScreen;
+
     private void Awake()
     {
         CurrentHealth = startingHealth;
@@ -40,6 +43,7 @@ public class Health : MonoBehaviour
                 animator.SetTrigger("die");
                 GetComponent<PlayerMovement>().enabled = false;
                 dead = true;
+                deathScreen.GetComponent<DeathScreen>().DeathOverlay();
             }            
         }
     }

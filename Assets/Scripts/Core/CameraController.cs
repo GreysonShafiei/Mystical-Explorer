@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
         //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(currentPositionX, transform.position.y, transform.position.z), ref velocity, speed);
 
         //Follow Player
-        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
+        transform.position = new Vector3(player.position.x, player.position.y + 2.5f, transform.position.z);
         lookAhead = Mathf.Lerp(lookAhead, (offsetDistance * player.localScale.x), Time.deltaTime * camSpeed);
     }
 

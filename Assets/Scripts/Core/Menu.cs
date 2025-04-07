@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    string currentSceneName;
-
     private void Awake()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
@@ -21,7 +19,12 @@ public class Menu : MonoBehaviour
     // Restarts level
     public void restartLevel()
     {
-        SceneManager.LoadScene(currentSceneName);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     // Exits Game
