@@ -195,4 +195,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   fireballDamage: 0.5
-  fireballObj: {fileID: 0}

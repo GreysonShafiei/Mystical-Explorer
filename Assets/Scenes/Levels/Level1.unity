@@ -14594,6 +14594,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1299288612501533830, guid: cd5e7f6e4d355a946945a162ce47f9de, type: 3}
+      propertyPath: attackCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299288612501533830, guid: cd5e7f6e4d355a946945a162ce47f9de, type: 3}
       propertyPath: fireBalls.Array.data[0]
       value: 
       objectReference: {fileID: 2135992707}
