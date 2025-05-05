@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Lever : MonoBehaviour
 {
+    public float resetTimer = 15f;
     public GameObject onVisual;
     public GameObject offVisual;
 
@@ -13,8 +14,8 @@ public class Lever : MonoBehaviour
 
     private void Start()
     {
-        if (onVisual != null) onVisual.SetActive(true);
-        if (offVisual != null) offVisual.SetActive(false);
+        if (onVisual != null) onVisual.SetActive(false);
+        if (offVisual != null) offVisual.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,13 +23,18 @@ public class Lever : MonoBehaviour
         Debug.Log("Lever triggered by: " + collision.name);
         if (collision.CompareTag("Fireball"))
         {
-            leverActivation = true;
-            unlock = true;
+            Debug.Log("Fireball detected!");
 
-            if (onVisual != null) onVisual.SetActive(true);
-            if (offVisual != null) offVisual.SetActive(false);
+            // Toggle state
+            leverActivation = !leverActivation;
+            unlock = leverActivation;
+            Debug.Log("Lever auto-reset. New unlock = " + unlock);
 
-            // Start/reset the countdown
+            // Update visuals based on new state
+            if (onVisual != null) onVisual.SetActive(leverActivation);
+            if (offVisual != null) offVisual.SetActive(!leverActivation);
+
+            // Reset countdown timer
             if (resetCoroutine != null)
             {
                 StopCoroutine(resetCoroutine);
@@ -39,12 +45,13 @@ public class Lever : MonoBehaviour
 
     private IEnumerator TimedReset()
     {
-        yield return new WaitForSeconds(15f); // wait 15 seconds
+        yield return new WaitForSeconds(resetTimer);
 
-        leverActivation = false;
-        unlock = false;
+        // Toggle again after delay
+        leverActivation = !leverActivation;
+        unlock = leverActivation;
 
-        if (onVisual != null) onVisual.SetActive(false);
-        if (offVisual != null) offVisual.SetActive(true);
+        if (onVisual != null) onVisual.SetActive(leverActivation);
+        if (offVisual != null) offVisual.SetActive(!leverActivation);
     }
 }
