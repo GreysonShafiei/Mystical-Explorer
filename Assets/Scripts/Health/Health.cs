@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
             //player hurt
             animator.SetTrigger("hurt");
             //Invincibility Timer
-            StartCoroutine(Invincibility());
+            ApplyInvincibility(invincibilityTimer);
         }
         else
         {
@@ -60,9 +60,9 @@ public class Health : MonoBehaviour
         for (int i = 0; i < highlightLength; i++)
         {
             spriteRenderer.color = new Color(1,0,0,0.5f);
-            yield return new WaitForSeconds(invincibilityTimer / (highlightLength * 2));
+            yield return new WaitForSeconds(duration / (highlightLength * 2));
             spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(invincibilityTimer / (highlightLength * 2));
+            yield return new WaitForSeconds(duration/ (highlightLength * 2));
         }
         Physics2D.IgnoreLayerCollision(8,9,false);
     }
