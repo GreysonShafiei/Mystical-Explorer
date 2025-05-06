@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
             //player hurt
             animator.SetTrigger("hurt");
             //Invincibility Timer
-            StartCoroutine(Invicibility());
+            StartCoroutine(Invincibility());
         }
         else
         {
@@ -53,7 +53,7 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth + _val, 0, startingHealth);
     }
     
-    private IEnumerator Invicibility()
+    private IEnumerator Invincibility(float duration)
     {
         Physics2D.IgnoreLayerCollision(8,9,true);
         //Length of Invincibility
@@ -65,5 +65,10 @@ public class Health : MonoBehaviour
             yield return new WaitForSeconds(invincibilityTimer / (highlightLength * 2));
         }
         Physics2D.IgnoreLayerCollision(8,9,false);
+    }
+
+    public void ApplyInvincibility(float duration)
+    {
+        StartCoroutine(Invincibility(duration));
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class LeverObjects : MonoBehaviour
 {
     public List<Lever> levers;
-    public BoxCollider2D targetCollider;
+    public List<BoxCollider2D> targetColliders;
     public List<GameObject> targetObjects;
 
     private bool isHidden = false;
@@ -35,8 +35,10 @@ public class LeverObjects : MonoBehaviour
         // If all levers are ON and the object is not hidden, hide it
         if (allLeversOn && !isHidden)
         {
-            if (targetCollider != null)
-                targetCollider.enabled = false;
+            foreach (BoxCollider2D box in targetColliders)
+            {
+                if (targetColliders != null) box.enabled = false;
+            }
 
             foreach (GameObject obj in targetObjects)
             {
@@ -50,8 +52,10 @@ public class LeverObjects : MonoBehaviour
         // If not all levers are ON and the object is hidden, show it
         else if (!allLeversOn && isHidden)
         {
-            if (targetCollider != null)
-                targetCollider.enabled = true;
+            foreach (BoxCollider2D box in targetColliders)
+            {
+                if (targetColliders != null) box.enabled = true;
+            }
 
             foreach (GameObject obj in targetObjects)
             {
