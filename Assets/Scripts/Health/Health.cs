@@ -10,6 +10,8 @@ public class Health : MonoBehaviour
     private Animator animator;
     private bool dead;
 
+    private bool isInvincible = false;
+
     [Header("InvicibilityTimer")]
     [SerializeField] private float invincibilityTimer;
     [SerializeField] private int highlightLength;
@@ -27,6 +29,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
+        if (isInvincible) return;
         CurrentHealth = Mathf.Clamp(CurrentHealth - _damage, 0, startingHealth);
         if (CurrentHealth > 0)
         {
@@ -55,16 +58,17 @@ public class Health : MonoBehaviour
     
     private IEnumerator Invincibility(float duration)
     {
-        Physics2D.IgnoreLayerCollision(8,9,true);
-        //Length of Invincibility
+        isInvincible = true;
+        Physics2D.IgnoreLayerCollision(8, 9, true);
         for (int i = 0; i < highlightLength; i++)
         {
-            spriteRenderer.color = new Color(1,0,0,0.5f);
+            spriteRenderer.color = new Color(1, 0, 0, 0.5f);
             yield return new WaitForSeconds(duration / (highlightLength * 2));
             spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(duration/ (highlightLength * 2));
+            yield return new WaitForSeconds(duration / (highlightLength * 2));
         }
-        Physics2D.IgnoreLayerCollision(8,9,false);
+        Physics2D.IgnoreLayerCollision(8, 9, false);
+        isInvincible = false;
     }
 
     public void ApplyInvincibility(float duration)

@@ -15,6 +15,8 @@ public class CooperativeEnemy : MonoBehaviour
     private bool canAttack = true;
     private bool isAttacking = false;
 
+    private static bool groupAttacking = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,13 +25,41 @@ public class CooperativeEnemy : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || !canAttack || isAttacking) return;
+        if (player == null || !canAttack || isAttacking || groupAttacking) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= attackRange && !NearbyAllyIsAttacking())
+        if (distanceToPlayer <= attackRange)
         {
-            StartCoroutine(ChargeAttack());
+            StartCoroutine(TriggerGroupAttack());
         }
+    }
+
+    private IEnumerator TriggerGroupAttack()
+    {
+        groupAttacking = true;
+
+        CooperativeEnemy[] allies = FindObjectsOfType<CooperativeEnemy>();
+        List<CooperativeEnemy> group = new List<CooperativeEnemy>();
+
+        foreach (var ally in allies)
+        {
+            if (Vector2.Distance(player.position, ally.transform.position) <= cooperationRadius && ally.canAttack && !ally.isAttacking)
+            {
+                group.Add(ally);
+            }
+        }
+
+        // Small delay before attack starts
+        yield return new WaitForSeconds(0.2f);
+
+        foreach (var ally in group)
+        {
+            ally.StartCoroutine(ally.ChargeAttack());
+        }
+
+        // Wait for cooldown duration before allowing another group attack
+        yield return new WaitForSeconds(attackCooldown + 0.1f);
+        groupAttacking = false;
     }
 
     private IEnumerator ChargeAttack()
@@ -48,24 +78,9 @@ public class CooperativeEnemy : MonoBehaviour
         canAttack = true;
     }
 
-    private bool NearbyAllyIsAttacking()
-    {
-        CooperativeEnemy[] allEnemies = FindObjectsOfType<CooperativeEnemy>();
-        foreach (var ally in allEnemies)
-        {
-            if (ally == this) continue;
-            float dist = Vector2.Distance(transform.position, ally.transform.position);
-            if (dist <= cooperationRadius && ally.isAttacking)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isAttacking && collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
             collision.collider.GetComponent<Health>()?.TakeDamage(damage);
         }

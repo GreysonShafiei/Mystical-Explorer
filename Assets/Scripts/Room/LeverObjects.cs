@@ -6,6 +6,7 @@ public class LeverObjects : MonoBehaviour
     public List<Lever> levers;
     public List<BoxCollider2D> targetColliders;
     public List<GameObject> targetObjects;
+    public List<GameObject> objectsTurnOn;
 
     private bool isHidden = false;
 
@@ -45,6 +46,11 @@ public class LeverObjects : MonoBehaviour
                 if (obj != null) obj.SetActive(false);
             }
 
+            foreach (GameObject obj in objectsTurnOn)
+            {
+                if (obj != null) obj.SetActive(true);
+            }
+
             isHidden = true;
             Debug.Log("Hiding object: all levers are ON.");
         }
@@ -60,6 +66,11 @@ public class LeverObjects : MonoBehaviour
             foreach (GameObject obj in targetObjects)
             {
                 if (obj != null) obj.SetActive(true);
+            }
+
+            foreach (GameObject obj in objectsTurnOn)
+            {
+                if (obj != null) obj.SetActive(false);
             }
 
             isHidden = false;

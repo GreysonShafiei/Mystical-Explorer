@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy_sideways : MonoBehaviour
+public class Enemy_vertical : MonoBehaviour
 {
     [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float trapMoveRange;
     [SerializeField] private float waitPeriod = 0;
-    private bool movingLeft;
-    private float leftEdge;
-    private float rightEdge;
+    private bool movingDown;
+    private float bottomEdge;
+    private float topEdge;
     private Vector3 originalScale;
     private bool canMove = false;
 
     private void Awake()
     {
         originalScale = transform.localScale;
-        leftEdge = transform.position.x - trapMoveRange;
-        rightEdge = transform.position.x + trapMoveRange;
+        bottomEdge = transform.position.y - trapMoveRange;
+        topEdge = transform.position.y + trapMoveRange;        
     }
 
     private void Start()
@@ -29,32 +30,31 @@ public class Enemy_sideways : MonoBehaviour
     private void Update()
     {
         if (!canMove) return;
-
-        if (movingLeft)
+        
+        if (movingDown)
         {
-            if (transform.position.x > leftEdge)
+            if (transform.position.y > bottomEdge)
             {
-                transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z);
-                transform.localScale = new Vector3(originalScale.x * (movingLeft ? -1 : 1), originalScale.y, originalScale.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y - speed * Time.deltaTime, transform.position.z);
             }
             else
             {
-                movingLeft = false;
+                movingDown = false;
             }
         }
         else
         {
-            if (transform.position.x < rightEdge)
+            if (transform.position.y < topEdge)
             {
-                transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z);
-                transform.localScale = new Vector3(originalScale.x * (movingLeft ? -1 : 1), originalScale.y, originalScale.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + speed * Time.deltaTime, transform.position.z);
             }
             else
             {
-                movingLeft = true;
+                movingDown = true;
             }
         }
-        transform.localScale = new Vector3(originalScale.x * (movingLeft ? 1 : -1), originalScale.y, originalScale.z);
+
+        transform.rotation = Quaternion.Euler(0, 0, movingDown ? -90f : 90f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -64,7 +64,6 @@ public class Enemy_sideways : MonoBehaviour
             collision.GetComponent<Health>().TakeDamage(damage);
         }
     }
-
     private IEnumerator WaitToMove(float waitPeriod)
     {
         yield return new WaitForSeconds(waitPeriod);
